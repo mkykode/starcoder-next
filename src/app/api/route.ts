@@ -28,6 +28,7 @@ export async function POST(request: Request) {
     const res = await fetch(process.env.LANGUAGE_MODEL_URL as string, {
       method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${process.env.API_TOKEN}`,
       },
       body: JSON.stringify(data),
