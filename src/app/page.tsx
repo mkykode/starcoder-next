@@ -1,5 +1,9 @@
 'use client';
+
+import { useState } from 'react';
+
 export default function Home() {
+  const [code, setCode] = useState('');
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 w-full">
       <h1 className="text-3xl font-bold pb-8">Star Coder</h1>
@@ -17,7 +21,8 @@ export default function Home() {
             },
             body: JSON.stringify({ question }),
           });
-          console.log(await res.json());
+          const code = (await res.json()).at(0)?.generated_text;
+          setCode(code);
         }}
         className="w-full"
       >
@@ -29,6 +34,12 @@ export default function Home() {
           Submit
         </button>
       </form>
+      <h2 className="text-3xl font-bold pb-2 pt-8">Prediction</h2>
+      <section className="mt-8 bg-white w-full flex justify-start">
+        <code className="w-full h-96 border border-t-0 overflow-auto bg-white p-8">
+          <pre>{code}</pre>
+        </code>
+      </section>
     </main>
   );
 }

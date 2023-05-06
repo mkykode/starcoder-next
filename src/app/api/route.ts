@@ -18,12 +18,17 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
   // get the data from the request post body
   const req = await request.json();
-
+  console.log('req', req);
   let response = {};
   const data = {
     inputs: req.question,
   };
-  console.log('data', data);
+  console.log(
+    'data',
+    data,
+    process.env.LANGUAGE_MODEL_URL,
+    process.env.API_TOKEN
+  );
   try {
     const res = await fetch(process.env.LANGUAGE_MODEL_URL as string, {
       method: 'POST',
@@ -31,7 +36,9 @@ export async function POST(request: Request) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${process.env.API_TOKEN}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        inputs: req.question,
+      }),
     });
     response = await res.json();
     console.log(response);
